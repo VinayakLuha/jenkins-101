@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
-                echo "Build Done"
+                echo "Building Done"
                 '''
             }
         }
@@ -28,9 +28,22 @@ pipeline {
             steps {
                 echo 'Deliver....'
                 sh '''
-                echo "doing delivery stuff.."
+                echo "Delivery Done"
                 '''
             }
+        }
+    }
+      post {
+        always {
+            emailext (
+                subject: "Jenkins Build Notification: ${currentBuild.fullDisplayName}",
+                body: """<p>Build Pipeline Notification</p>
+                         <p>Project: ${env.JOB_NAME}</p>
+                         <p>Build Number: ${env.BUILD_NUMBER}</p>
+                         <p>Build Status: ${currentBuild.currentResult}</p>
+                         <p>Check console output at ${env.BUILD_URL} to view the results.</p>""",
+                to: 'vluha@mathworks.com'
+            )
         }
     }
 }

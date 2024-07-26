@@ -1,4 +1,9 @@
 pipeline {
+     agent { 
+        node {
+            label ''
+            }
+      }
      triggers {
         pollSCM '*/1 * * * *'
     }
